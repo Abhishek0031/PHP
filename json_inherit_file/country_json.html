@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <label for="country">SELECT YOUR STATE:</label>
+   <select name="country" id="ctry">    </select>
+   <br/.
+   <label for="state">SELECT YOUR STATE:</label>
+   <select name="state" id="state">
+    <option value="" id="empty_state"></option>  
+   </select>
+   <br/>
+   <label for="city">SELECT YOUR STATE:</label>
+   <select name="city" id="city">
+    <option value="" id="empty"></option>    </select>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"
+      integrity="sha512-3gJwYpMe3QewGELv8k/BX9vcqhryRdzRMxVfq6ngyWXwo03GFEzjsUm8Q7RZcHPHksttq7/GFoxjCVUjkjvPdw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer">
+    </script>
+    <script>
+        $(document).ready(function(){
+            // console.log("hii");
+function city_show(){
+//select city from city.php
+$(document).on("change","#state",function(){
+  // console.log($(this).val());
+  var val=($(this).val());
+  $.ajax({
+        url: "city.php",
+        method: "POST",
+        data:{name:val},
+        dataType:"json",
+        success: function(data) {
+            // console.log("hello");
+          console.log(data);
+
+          for (x in data) {
+            $("#city").append(
+              "<option id="+data[x]["city"]+" value=" +
+                data[x]["city"] +
+                ">" +
+                data[x]["city"] +
+                "</option>"
+            );
+
+          }
+        },
+      });
+})
+}
+
+
+    //select states from states.php
+     $(document).on('change','#ctry',function(){
+      var val=($(this).val());
+      // console.log(name);
+      
+      $.ajax({
+        url: "states.php",
+        method: "POST",
+        data:{name:val},
+        dataType:"json",
+        success: function(data) {
+            // console.log("hello");
+          console.log(data);
+
+          for (x in data) {
+            // $("#state").append(
+             var msg=msg+
+              "<option id="+data[x]["name"]+" value=" +
+                data[x]["states"] +
+                ">" +
+                data[x]["states"] +
+                "</option>"
+            // );
+
+          }
+          $("#state").html(msg)
+          city_show();
+        },
+      });
+     });
+
+// country from country.json
+      $.ajax({
+        url: "country.json",
+        method: "get",
+        // dataType:"json",
+        success: function(data) {
+            // console.log("hello");
+          // console.log(data);
+
+          for (x in data) {
+            // $("#ctry").append(
+              var msg2=msg2+
+              "<option id="+data[x]["code"]+" value=" +
+                data[x]["name"] +
+                ">" +
+                data[x]["name"] +
+                "</option>"
+            // );
+
+          }
+          $("#ctry").html(msg2);
+        },
+      });
+    // $.get('country.json',function(data){
+    //     console.log(data)
+    // })
+    });
+    </script>
+  </body>
+</html>
+
+        

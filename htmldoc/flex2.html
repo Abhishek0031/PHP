@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        .parentDiv
+        { display: flex;
+          justify-content: space-between;
+
+          flex-direction: row;
+          width:100%;
+          height: 300px;
+          border: 1px solid black;  
+        }
+        
+        .childDiv
+        { 
+          
+          display: flex;
+          justify-content: space-between;
+          
+          flex-direction: column;
+          width:20%;
+          /* height: 100%;   */
+          /* border: 1px solid black; */
+        }
+        .upgrchildDiv
+        { background-image: url('./img/taj\ mahal.jpg');
+        border-radius: 30%;
+
+          width:100%;
+          height: 70%;
+          /* border: 1px solid black; */
+
+        }
+        .lowgrchildDiv
+        {  display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: baseline;
+          bottom: 0;
+          width:100%;
+          /* height: 100%; */
+          border: 1px solid red;    
+
+        }
+        
+    </style>
+</head> 
+<body>
+      <div class="parentDiv">
+           <div class="childDiv">
+            <div class="upgrchildDiv">
+                
+
+            </div>
+             <div class="lowgrchildDiv">
+                 <h4>The Taj</h4>
+                <p> Taj Mahal which has been the center of huge attraction for millions of tourists  </p>
+             </div>
+           </div>
+          
+           <div class="childDiv">
+            <div class="upgrchildDiv">
+                
+
+            </div>
+             <div class="lowgrchildDiv">
+                <h4>
+                    The Taj
+                </h4>
+                <p> Taj Mahal which has been the center of huge attraction for millions of tourists worldwide khhsa cdsvhjbck sdkj </p>
+             </div>
+           </div>
+
+           <div class="childDiv">
+            <div class="upgrchildDiv">
+                
+
+            </div>
+             <div class="lowgrchildDiv">
+                <h4>The Taj</h4>
+                <p> content </p>
+             </div>
+           </div>
+
+           <div class="childDiv">
+            <div class="upgrchildDiv">
+                
+
+            </div>
+             <div class="lowgrchildDiv">
+                <h4>The Taj</h4>    
+                <p> content </p>
+             </div>
+           </div>
+
+
+          </div>  
+        
+
+    
+</body>
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../../testtt/cdn/js/bootstrap.css">
+
+    </script>
+    <script src="../../testtt/cdn/js/jQuery.js">
+    </script>
+</head>
+<body>
+    <form id="upload_form" enctype="multipart/form-data">
+    name:
+    <input type="text" name="name" id="name"><br/>
+    image:
+    <input type="file" name="file" id="file">
+    <input type="submit" name="submit" id="submit">
+    </form>
+    <script>
+        $(document).ready(function(){
+            $("#submit").click(function (e) {
+                e.preventDefault();
+                        //  formdata= new FormData(this)
+                         var formdata = new FormData(this);
+                        $.ajax({
+                            url:"data_post.php",
+                            method:'POST',
+                            data:formdata,
+                            contentType:false,
+                            cache: false,
+                    processData: false,
+                            success:function(response){
+                console.log(response);
+                            }
+                       })
+                    })          
+        })
+    </script>    
+</body>
+</html>

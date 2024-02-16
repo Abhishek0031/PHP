@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js" integrity="sha512-3gJwYpMe3QewGELv8k/BX9vcqhryRdzRMxVfq6ngyWXwo03GFEzjsUm8Q7RZcHPHksttq7/GFoxjCVUjkjvPdw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script>
+        jQuery(document).ready(function(){
+            jQuery("#form").on("submit",function(e){
+                e.preventDefault()
+                jQuery.ajax({
+                    type:"POST",
+                    url:"data.php",
+                    data:jQuery(this).serialize(),
+                    success:function(response){
+                       try{
+                        var jsonData = JSON.parse(response)
+                       console.log(jsonData)
+                       }
+                       catch(e){
+                        console.log
+                       }
+                    alert(response)
+                    // alert("helllo")
+                    console.log("hlo")
+                   
+                    }
+                })
+            })
+        })
+        
+    </script>
+</head>
+<body>
+        <form id="form">
+       
+                country:
+                <input type="text" name="name">
+                <br/>
+                state:
+                <input type="text" name="state">
+                <br/>
+                city:
+                <input type="text" name="city">
+                <button id="btn" type="submit" name="submit">Submit</button>
+              
+        </form>
+       
+</body>
+</html>
+            

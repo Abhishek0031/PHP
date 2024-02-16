@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <form action="" id="myform" method="post">
+      NAME:
+      <input type="text" name="name" id="name" /><span
+        id="spname"
+        style="color: red"
+      ></span
+      ><br />
+      EMAIL:
+      <input type="email" name="email" id="id" /><span
+        id="spemail"
+        style="color: red"
+      ></span
+      ><br />
+      <!-- ADDRESS-1:
+      <input type="text" name="add1" id="add1" /><span
+        id="spemail"
+        style="color: red"
+      ></span
+      ><br />
+      ADDRESS-2:
+      <input type="text" name="add22" id="add2" /><span
+        id="add2"
+        style="color: red"
+      ></span
+      ><br /> -->
+      COUNTRY:
+        <input type="text" name="country" id="country" /><span
+          id="country"
+          style="color: red"
+        ></span
+      ><br />
+      STATE:
+      <input type="text" name="state" id="state" /><span
+        id="state"
+        style="color: red"
+      ></span
+      ><br />
+      CITY:
+      <input type="text" name="city" id="city" /><span
+        id="city"
+        style="color: red"
+      ></span
+      ><br />
+      <input type="submit" name="sub" id="sub" /><br />
+    </form>
+    <br />
+    <!-- join the table using the JOIN button -->
+    <button id="join_btn">JOIN</button>
+
+    <br />
+    <!-- show data in the div -->
+    <div id="join_table"></div>
+
+    <div id="d1" style="display: none">
+      <h3>Join table data</h3>
+      <table class="table2" border="1">
+        
+        <thead>
+          <tr>
+            <th scope="col">ID</th>
+            <th scope="col">NAME</th>
+            <th scope="col">EMAIL</th>
+            <th scope="col">COUNTRY</th>
+            <th scope="col">STATES</th>
+            <th scope="col">CITY</th>
+          </tr>
+        </thead>
+        <tbody id="tbody2"></tbody>
+        
+      </table>
+      <div id="d4"></div>
+    </div>
+    <div id="data_table">
+      <table class="table" border="1">
+        <thead>
+          <tr>
+            <th scope="col">ID</th>
+            <th scope="col">NAME</th>
+            <th scope="col">EMAIL</th>
+            <th scope="col">DELETE</th>
+            <th scope="col">UPDATE</th>
+          </tr>
+        </thead>
+        <tbody id="tbody"></tbody>
+      </table>
+    </div>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"
+      integrity="sha512-3gJwYpMe3QewGELv8k/BX9vcqhryRdzRMxVfq6ngyWXwo03GFEzjsUm8Q7RZcHPHksttq7/GFoxjCVUjkjvPdw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <script>
+      $(document).ready(function () {
+
+        //GO BACK TO THE FORM
+        $("#d4").on('click',"#back_join",function(){
+          console.log("hello");
+          $("body").load("page.html");
+        })
+        //FOR JOIN THE TABLE data_tb AND address_tb
+        function join_show() {
+          $("#join_btn").click(function () {
+           $.ajax({
+              url: "join.php",
+              method: "GET",
+              dataType: "JSON",
+              success: function (response) {
+                console.log(response);
+                if (response) {
+                  for (i = 0; i < response.length; ++i) {
+                    var ht =
+                      ht +
+                      "<tr><td>" +
+                      response[i].id +
+                      "</td>" +
+                      "<td>" +
+                      response[i].name +
+                      "</td>" +
+                      "<td>" +
+                      response[i].email +
+                      "</td>" +
+                      "<td>" +
+                      response[i].country +
+                      "</td>" +
+                      "<td>" +
+                      response[i].states +
+                      "</td>" +
+                      "<td>" +
+                      response[i].city +
+                      "</td>" +
+                      "</td></tr>";
+                  }
+                  $("#d1").show();
+                  btn_ht="<br/><button id ='back_join'>go back</button>";
+                  $("#tbody2").html(ht);
+                  $("#d4").html(btn_ht);
+                }
+                $("#data_table").hide();
+              },
+            });
+          });
+        }
+        join_show(); //calling the join_show function to display the data
+       
+        // FOR UPDATE DATA FROM DAT BASE
+        //FETCHING FOR UPDATE
+        show();
+        $("#tbody").on("click", ".btn-edit", function () {
+          var id = $(this).attr("id");
+          // console.log(id);
+          var val = { nid: id };
+          console.log(val);
+          $.ajax({
+            url: "fetch.php",
+            method: "POST",
+            dataType: "json",
+            data: val,
+            success: function (response) {
+              // console.log("hii");
+              console.log(response);
+              // var nm = response.name;
+              $("#name").val(response.name);
+              $("#id").val(response.email);
+              $("#country").val(response.country);
+              $("#state").val(response.states);
+              $("#city").val(response.city);
+
+              // var em = response.email;
+
+              var msg =
+                "<button class='updt' id='" +
+                response.id +
+                "''>update</button>";
+              // console.log(msg);
+              $("#d1").html(msg);
+              $("#sub").hide();
+              $("#d1").show();
+              $("#join_btn").hide();
+
+              // update data
+              var data = $(".updt").attr("id");
+
+              $(".updt").click(function () {
+                var data = $(".updt").attr("id");
+                console.log(data);
+                var val = {
+                  id: data,
+                  name: $("#name").val(),
+                  email: $("#id").val(),
+                  country: $("#country").val(),
+                  state: $("#state").val(),
+                  city: $("#city").val(),
+                };
+                $.ajax({
+                  url: "update.php",
+                  method: "POST",
+                  dataType: "json",
+                  data: val,
+                  success: function (response) {
+                    // console.log("hii");
+                    console.log(response);
+                    show();
+                    $("#sub").show();
+                    tag = response.id;
+                    $("#d1").hide();
+
+                    $("#myform")[0].reset();
+                  },
+                });
+              });
+            },
+          });
+        });
+
+        //         var data=$(".updt").attr("id");
+
+        // $(".updt").click(function(){
+
+        //   var data=$(".updt").attr("id");
+        //   console.log(data);
+        //  var val={id:data,
+        //           name:$("#name").val(),
+        //           email:$("#id").val()     }
+        //   $.ajax({
+        //         url:"update.php",
+        //         method:"POST",
+        //         // dataType:"json",
+        //         data:val,
+        //         success:function(response){
+        //          console.log(response);
+        //          show();
+        //         }
+        //   })
+        // })
+        // }
+
+        //FUNCTIONS FOR SHOW THE DATA
+        function show() {
+          $.ajax({
+            url: "show.php",
+            method: "GET",
+            // dataType: "JSON",
+            success: function (response) {
+              var data = JSON.parse(response);
+              // console.log(data);
+              if (data) {
+                for (i = 0; i < data.length; ++i) {
+                  var ht =
+                    ht +
+                    "<tr><td>" +
+                    data[i].id +
+                    "</td>" +
+                    "<td>" +
+                    data[i].name +
+                    "</td>" +
+                    "<td>" +
+                    data[i].email +
+                    "</td>" +
+                    "</td><td> <button class='btn-del' id=" +
+                    data[i].id +
+                    " style='background-color:red; color:white;'>Delete</button></td>" +
+                    "<td><button class='btn-edit' id=" +
+                    data[i].id +
+                    " style='background-color:green; color:white;'>Edit</td></tr>";
+                  //  console.log(ht);
+                }
+                $("#tbody").html(ht);
+              }
+            },
+          });
+        }
+        //delete data
+        $("#tbody").on("click", ".btn-del", function () {
+          var id = $(this).attr("id");
+          // console.log(id);
+          var val = { nid: id };
+          // console.log(data);
+          $.ajax({
+            url: "delete.php",
+            method: "POST",
+            data: val,
+            dataType: "json",
+
+            success: function (response) {
+              // console.log("data deleted");
+              console.log(response);
+              show();
+            },
+          });
+        });
+
+        $("#myform").submit(function (e) {
+          e.preventDefault();
+          var name_get = jQuery("#name").val();
+          var email_get = jQuery("#id").val();
+          var isValid = true;
+          var namepattern = /^[a-zA-Z_]+$/;
+          var emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+
+          if (name_get === "") {
+            jQuery("#spname").text("Name is Required");
+            isValid = false;
+          } else if (!namepattern.test(name_get)) {
+            jQuery("#spname").text("  please enter valid name");
+            isValid = false;
+          } else {
+            jQuery("#spname").text("");
+          }
+
+          if (email_get === "") {
+            jQuery("#spemail").text("  email is Required");
+            isValid = false;
+          } else if (!emailPattern.test(email_get)) {
+            jQuery("#spemail").text("  please enter valid email");
+            isValid = false;
+          } else {
+            jQuery("#spemail").text("");
+          }
+
+            
+          if (isValid == true) {
+            //insert data
+            var st = $("#myform").serialize();
+            $.ajax({
+              url: "insert.php",
+              method: "POST",
+              // data: JSON.stringify(mydata),
+              data: st,
+              success: function (data) {
+                console.log(data);
+                // var msg = "<div>" + data + "</div>";
+                // $("#d1").html(msg);
+
+                //Querey is use to show the data from database
+                show();
+                $("#myform")[0].reset();
+              },
+            });
+          }
+        });
+      });
+    </script>
+  </body>
+</html>
